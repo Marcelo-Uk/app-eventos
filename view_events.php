@@ -1,5 +1,16 @@
 <?php
-// Conectar ao banco de dados PostgreSQL
+
+session_start();
+include 'header.php'; // Inclui o cabeçalho
+
+// Verificar se o usuário está logado e é um administrador
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'admin') {
+    header("Location: view_events.php"); // Redireciona para a página padrao do usuario se não for admin
+    exit;
+}
+
+
+//Conectar ao banco de dados PostgreSQL
 try {
     $conn = new PDO("pgsql:host=localhost;port=5432;dbname=eventos;user=postgres;password=aluno");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
